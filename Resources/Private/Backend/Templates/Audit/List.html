@@ -1,0 +1,143 @@
+<html xmlns:f="https://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+{namespace replace=SPT\SptTypo3audit\ViewHelpers}
+<f:layout name="Default" />
+<f:section name="HeaderAssets">
+</f:section>
+<f:section name="content">
+<link rel="stylesheet" href="{files.styleCss}"/>
+<table style="width: 100%;border-collapse: collapse;border-spacing: 0;margin-top: 20px;">
+		<tbody>
+			<tr>
+				<td colspan="3" style="text-align: center; padding: 0 0 10px;">
+					<img src="{baseUrl}typo3conf/ext/spt_typo3audit/Resources/Public/Icons/logo-black.png"
+						style="width:120px" />
+				</td>
+			</tr>		
+		</tbody>
+	</table>
+<f:form action="list" method="post" enctype="multipart/formdata" class="exportForm">
+	<button class="btn btn-primary pull-right" style="margin-right: 50px;">
+		<f:image src="EXT:spt_typo3audit/Resources/Public/Icons/pdfexport.png"  />
+	</button>
+	<f:form.hidden name="saveAsPdf" value="1" />
+</f:form>
+<div id="content">
+	<div id="editor"></div>
+	<f:flashMessages />
+	<input type="hidden" value="{f:uri.action(action:'list')}" id="ajaxUrl" />
+	<h1 class="text-center"><b><f:if condition="{arrDetails.sysDetail.Site_Name}">{arrDetails.sysDetail.Site_Name}</f:if> Audit Report</b></h1>
+	<div class="innercontent-wrapper">
+		<div class="row">
+			<div class="col-md-12">
+				<f:if condition="{arrDetails.sysDetail.Typo3_Version} < 7">
+					<f:then>
+						<div class="alert alert-danger" role="alert">
+						<h4 class="alert-heading">Old Version!</h4>
+						<p>You are using the oldest version of typo3, please upgrade to the latest version to reduce risk and loss.</p>
+						<hr>
+						<p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+						</div>
+					</f:then>
+					<f:else>
+						<f:if condition="{arrDetails.sysDetail.Typo3_Version} < 9">
+							<f:then>
+								<div class="alert alert-warning" role="alert">
+								<h4 class="alert-heading"><b>Old Version!</b></h4>
+								<button type="button" style="margin-bottom: 10px; " class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<p>You are using the oldest version of typo3, please upgrade to the latest version to reduce risk and loss.</p>
+								</div>
+							</f:then>
+						</f:if>
+					</f:else>
+				</f:if>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<table  class="tx_spttypo3audit table table-bordered" >
+					<tr>
+						<td colspan="3"><h3><b>Server Informations</b></h3></td>
+					</tr>
+					<tr><th>Name</th><th>Current</th><th>Required</th></tr>
+			
+					<f:for each="{arrDetails.serverDetails}" key="key" as="audit">
+						<tr {f:if(condition: '{audit.current} == {audit.required}', then: 'class="active"')} >
+							<td><replace:StrReplace string="{key}" searchFor="_" replaceWith=" " />
+							<f:if condition="{audit.tempCur} >= {audit.tempReq}">
+							<f:then>
+								<f:image style="float: right; " src="EXT:spt_typo3audit/Resources/Public/Icons/green.png" width="10" alt="alt text" />
+							</f:then>
+							<f:else>
+								<f:image style="float: right; " src="EXT:spt_typo3audit/Resources/Public/Icons/marker_red.png" width="10" alt="alt text" />
+							</f:else>
+							</f:if>
+							</td>
+							<td>{audit.current}</td>
+							<td>{audit.required}</td>
+						</tr>
+					</f:for>
+				</table>
+			</div>
+			<div class="col-md-6">
+				<table  class="tx_spttypo3audit table table-bordered" >
+					<tr>
+						<td colspan="2"><h3><b>System Informations</b></h3></td>
+					</tr>
+						<f:for each="{arrDetails.sysDetail}" key="key" as="audit">
+							<tr>
+								<td><replace:StrReplace string="{key}" searchFor="_" replaceWith=" " /></td>
+								<td>{audit}</td>
+							</tr>
+						</f:for>
+						<tr>
+							<td>Total Installed Extensions</td>
+							<td>{arrDetails.extensions.totalInstalled}</td>
+						</tr>
+			
+						<tr>
+							<td>Total Not Installed Extensions</td>
+							<td>{arrDetails.extensions.totalNot}</td>
+						</tr>
+			
+						<tr>
+							<td>Non Compatible Extensions</td>
+							<td>{arrDetails.extensions.totalNotCompatible}</td>
+						</tr>		
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<table  class="tx_spttypo3audit table table-bordered" >
+					<tr>
+						<td colspan="3" ><h3><b>Installed Extensions</b></h3></td>
+					</tr>
+					<tr>
+						<td><b>Name</b></td>
+						<td><b>Version</b></td>
+						<td><b>Compatibility</b></td>
+					</tr>
+					<f:for each="{arrDetails.extensions.extenionList}" key="key" as="extension">
+						<tr>
+							<td>{extension.title}</td>
+							<td>{extension.Version}</td>
+							<td><f:if condition="{extension.compatibility} == 1">
+								<f:then> <f:image style="float: left; " src="EXT:spt_typo3audit/Resources/Public/Icons/green.png" width="10" alt="alt text" /> <p style="padding-left: 20px;"> Compatible</p></f:then>
+								<f:else> <f:image style="float: left; " src="EXT:spt_typo3audit/Resources/Public/Icons/marker_red.png" width="10" alt="alt text" /> <p style="padding-left: 20px ;  " 	> Not Compatible</p></f:else>
+							</f:if>
+							</td>
+						</tr>
+					</f:for>
+				</table>
+				</br></br>
+				<p style="text-align: center; " >Copyright © {currentYear} Spawoz Technologies Pvt Ltd. All rights reserved. </p>
+				</br>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="{files.auditJs}"></script>
+	</f:section>
+</html>

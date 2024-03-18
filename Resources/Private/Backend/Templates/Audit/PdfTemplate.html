@@ -1,0 +1,274 @@
+<html xmlns:f="https://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+{namespace replace=SPT\SptTypo3audit\ViewHelpers}
+
+<head>
+	<style>
+		@page {
+			margin: 50px 50px 75px;
+		}
+
+		footer {
+			position: fixed;
+			bottom: -50px;
+			left: 0px;
+			right: 0px;
+			height: 30px;
+			text-align: center;
+			line-height: 35px;
+		}
+
+		* {
+			page-break-inside: avoid;
+			vertical-align: middle;
+		}
+		body {
+            font-size: 14px;
+            font-weight: 400;
+            color: #000;
+            height: 100%;
+        }
+
+        td {
+            font-size: 14px;
+            vertical-align: top;
+        }
+	</style>
+</head>
+
+<body style="font-family: Arial;">
+	<table style="width: 100%;
+	border:0;
+	vertical-align:middle;
+	border-collapse: collapse;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: normal;
+	color: #555c6a;vertical-align: top;" autosize="1">
+		<tr>
+			<td colspan="2">
+				<!-- Footer section -->
+				<footer>
+					<table style="width:100%;border-spacing:0;border-collapse:collapse;">
+						<tbody>
+							<tr>
+								<td style="padding:1px 0;width:15%;height: 3px;background-color:#e40000;"></td>
+								<td style="padding:1px 0;width:25%;height: 3px;background-color:#333;"></td>
+								<td style="padding:1px 0;width:60%;height: 3px;background-color:#ccc;"></td>
+							</tr>
+						</tbody>
+					</table>
+					<table style="width:100%;border-spacing:0;border-collapse:collapse;margin-bottom: 40px;">
+						<tbody>
+							<tr>
+								<td style="width:33%;text-align:center;">
+									<table style="text-align: center; margin: auto;">
+										<tr>
+											<td><img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/globe.jpg" alt="" class="img-fluid" style="width: 15px; height:15px;  margin-top:16px; padding-right: 5px"></td>
+											<td>www.spawoz.com</td>
+										</tr>
+									</table>
+								</td>
+								<td style="width:33%;text-align:center;">
+									<table style="text-align: center; margin: auto;">
+										<tr>
+											<td><img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/envelope.jpg" alt="" class="img-fluid" style="width: 15px; height:15px;  margin-top:16px; padding-right: 5px"></td>
+											<td>info@spawoz.com</td>
+										</tr>
+									</table>
+								</td>
+								<td style="width:33%;text-align:center;">
+									<table style="text-align: center; margin: auto;">
+										<tr>
+											<td><img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/phone.jpg" alt="" class="img-fluid" style="width: 15px; height: 15px;  margin-top:16px; padding-right: 5px"></td>
+											<td>0484-4030911</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</footer>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<table style="width: 100%;border-collapse: collapse;border-spacing: 0;">
+					<tbody>
+						<tr>
+							<td class="navbar" style="text-align: left;page-break-inside: avoid;" colspan="2">
+								<img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/logo-black.jpg" class="img-fluid" style="max-width: 150px;width: 150px;margin-top:-10px;">
+							</td>
+							<td style="text-align: right;" colspan="2">
+								<b>Spawoz Technologies Pvt. Ltd.<br>
+									Ground Floor, Vismaya Building,<br>
+									Infopark Kochi Campus, Cochin, Kerala, India - 682 042
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding:1px 0;width:15%;height: 3px;background-color:#e40000;"></td>
+							<td style="padding:1px 0;width:25%;height: 3px;background-color:#333;"></td>
+							<td style="padding:1px 0;width:60%;height: 3px;background-color:#ccc;"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;padding-bottom: 10px;">
+				<h1><b><f:if condition="{arrDetails.sysDetail.Site_Name}">{arrDetails.sysDetail.Site_Name}</f:if> Audit Report</b></h1>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 50%;padding: 10px;">
+				<table style="width: 100%; border:1px solid #555c6a;border-collapse: collapse;">
+					<tr>
+						<td colspan="3" style="border:1px solid #555c6a;padding:10px 5px;">
+							<h3><b>Server Informations</b></h3>
+						</td>
+					</tr>
+					<tr>
+						<th style="border:1px solid #555c6a;text-align: left;padding: 5px;">Name</th>
+						<th style="border:1px solid #555c6a;text-align: left;padding: 5px;">Current</th>
+						<th style="border:1px solid #555c6a;text-align: left;padding: 5px;">Required</th>
+					</tr>
+					<f:for each="{arrDetails.serverDetails}" key="key" as="audit">
+						<tr {f:if(condition: '{audit.current} == {audit.required}' , then: 'class="active"' )}>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;width: 50%;">
+								<replace:StrReplace string="{key}" searchFor="_" replaceWith=" " />
+								<f:if condition="{audit.tempCur} >= {audit.tempReq}">
+									<f:then>
+										<img style="float: right; "
+											src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/green.jpg"
+											width="10" alt="alt text" />
+									</f:then>
+									<f:else>
+										<img style="float: right; "
+											src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/marker_red.jpg"
+											width="10" alt="alt text" />
+									</f:else>
+								</f:if>
+							</td>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">{audit.current}</td>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">{audit.required}</td>
+						</tr>
+					</f:for>
+				</table>
+			</td>
+			<td style="width: 50%;padding: 10px;">
+				<table style="width: 100%; border:1px solid #555c6a;border-collapse: collapse;">
+					<tr>
+						<td colspan="2" style="border:1px solid #555c6a;text-align: left;padding:10px 5px;">
+							<h3><b>System Informations</b></h3>
+						</td>
+					</tr>
+					<f:for each="{arrDetails.sysDetail}" key="key" as="audit">
+						<tr>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">
+								<replace:StrReplace string="{key}" searchFor="_" replaceWith=" " />
+							</td>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">{audit}</td>
+						</tr>
+					</f:for>
+					<tr>
+						<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">Total Installed Extensions
+						</td>
+						<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">
+							{arrDetails.extensions.totalInstalled}</td>
+					</tr>
+
+					<tr>
+						<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">Total Not Installed
+							Extensions</td>
+						<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">
+							{arrDetails.extensions.totalNot}</td>
+					</tr>
+
+					<tr>
+						<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">Non Compatible Extensions
+						</td>
+						<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">
+							{arrDetails.extensions.totalNotCompatible}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="width: 100%;padding: 10px;">
+				<table style="width: 100%; border:1px solid #555c6a;border-collapse: collapse;">
+					<tr>
+						<td colspan="3" style="border:1px solid #555c6a;text-align: left;padding:10px 5px; ">
+							<h3><b>Installed Extensions</b></h3>
+						</td>
+					</tr>
+					<tr>
+						<th style="border:1px solid #555c6a;text-align: left;padding: 5px;"><b>Name</b></td>
+						<th style="border:1px solid #555c6a;text-align: left;padding: 5px;"><b>Version</b></td>
+						<th style="border:1px solid #555c6a;text-align: left;padding: 5px;"><b>Compatibility</b></td>
+					</tr>
+					<f:for each="{arrDetails.extensions.extenionList}" key="key" as="extension">
+						<tr>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">{extension.title}</td>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">{extension.Version}</td>
+							<td style="border:1px solid #555c6a;text-align: left;padding: 5px;">
+								<f:if condition="{extension.compatibility} == 1">
+									<f:then> <span>
+											<img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/green.jpg"
+												width="10" alt="alt text" /></span><span style="padding-left: 10px;">
+											Compatible</span></f:then>
+									<f:else> <span>
+											<img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/marker_red.jpg"
+												width="10" alt="alt text" /></span><span style="padding-left: 10px ;">
+											Not Compatible</span></f:else>
+								</f:if>
+							</td>
+						</tr>
+					</f:for>
+				</table>
+			</td>
+		</tr>
+		<footer>
+			<table style="width:100%;border-spacing:0;border-collapse:collapse;">
+				<tbody>
+					<tr>
+						<td style="padding:1px 0;width:15%;height: 3px;background-color:#e40000;"></td>
+						<td style="padding:1px 0;width:25%;height: 3px;background-color:#333;"></td>
+						<td style="padding:1px 0;width:60%;height: 3px;background-color:#ccc;"></td>
+					</tr>
+				</tbody>
+			</table>
+			<table style="width:100%;border-spacing:0;border-collapse:collapse;margin-bottom: 40px;">
+				<tbody>
+					<tr>
+						<td style="width:33%;text-align:center;">
+							<table style="text-align: center; margin: auto;">
+								<tr>
+									<td><img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/globe.jpg" alt="" class="img-fluid" style="width: 15px; height:15px;  margin-top:16px; padding-right: 5px"></td>
+									<td>www.spawoz.com</td>
+								</tr>
+							</table>
+						</td>
+						<td style="width:33%;text-align:center;">
+							<table style="text-align: center; margin: auto;">
+								<tr>
+									<td><img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/envelope.jpg" alt="" class="img-fluid" style="width: 15px; height:15px;  margin-top:16px; padding-right: 5px"></td>
+									<td>info@spawoz.com</td>
+								</tr>
+							</table>
+						</td>
+						<td style="width:33%;text-align:center;">
+							<table style="text-align: center; margin: auto;">
+								<tr>
+									<td><img src="{documentRoot}/typo3conf/ext/spt_typo3audit/Resources/Public/Icons/phone.jpg" alt="" class="img-fluid" style="width: 15px; height: 15px;  margin-top:16px; padding-right: 5px"></td>
+									<td>0484-4030911</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</footer>
+	</table>
+</body>
+
+</html>

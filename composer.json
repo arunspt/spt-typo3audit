@@ -1,0 +1,37 @@
+{
+    "name": "spt/spt-typo3audit",
+    "type": "typo3-cms-extension",
+    "description": "Extension can be used to analyse a complete TYPO3 website system overview and it can be used to understand the server details and the extensions installed and their compatibility which are installed in the system. It is also possible to save this report as a PDF file.",
+    "authors": [
+        {
+            "name": "Arun Chandran",
+            "role": "Product Manager"
+        }
+    ],
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "require": {
+        "typo3/cms-core": "^11",
+        "php": "^7.2 || ^8.0"
+    },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/Spawoz/Typo3-Extensions/tree/master/spt_typo3audit"
+      }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SPT\\SptTypo3audit\\": "Classes"
+        }
+    },
+    "replace": {
+        "typo3-ter/spt-typo3audit": "self.version"
+    },
+    "extra": {
+      "typo3/cms": {
+         "extension-key": "spt_typo3audit"
+      }
+   }
+}
